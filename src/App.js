@@ -20,6 +20,7 @@ const webSounds =
   "Maze Politics": "https://www.docs.google.com/uc?export=download&id=1noQWMzjEQtBmlwbR8dNUOhTFyCjto0FR"
 }
 var counter = 0;
+var noneWasAdded = 0;
 
 class App extends Component {
   constructor(props) {
@@ -30,13 +31,13 @@ class App extends Component {
       currState: 'Nothing to play yet...',
       samplesArr: [],
       noTimeout: true
-
     }
 
   }
   // reset function
   reset = async () => {
     this.setState({ prevState: [], currState: 'Nothing to play yet...', samplesArr: [], firstTimeUse: true });
+    counter = 0;
   }
 
   // change the text presented in the text box
@@ -54,20 +55,18 @@ class App extends Component {
       }
     }
   }
-
-
   addSample = async (num) => {
     for (let i = num; i < this.state.prevState.length; i++) {
       this.state.samplesArr[i] = new Audio(webSounds[this.state.prevState[i]]);
       this.state.samplesArr[i].play();
       this.state.samplesArr[i].loop = true;
       counter += 1;
+      noneWasAdded += 1;
     }
-
   }
   stopPlaying = async () => {
     for (let i = 0; i < this.state.prevState.length; i++) {
-      await this.state.samplesArr[i].pause();
+      this.state.samplesArr[i].pause();
     }
   }
   playSamples = async () => {
@@ -80,18 +79,21 @@ class App extends Component {
 
     if (symbol === "Play") {
       console.log(this.state);
-      if (counter === this.state.prevState) {
-        let playPromise = await this.playSamples().catch(error => {
+      console.log("counter " + counter);
+      // if no new samples were added to the samplesArr 
+      if (noneWasAdded === this.state.prevState.length) {
+        this.playSamples().catch(error => {
           console.log("An error has occurred in playing" + error)
         })
-        // TO finish - playSamples should play if there are no new tracks
-        if ((this.state.noTimeout)) {
-          let returnedPromise = await this.addSample(0).catch(error => {
-            console.log("An error has occurred while adding new samples(noTimeout = true) " + error)
-          });
-          this.state.noTimeout = false;
-        }
       }
+      // if new smaples were added to the samplesArr
+      else if ((this.state.noTimeout) && (noneWasAdded !== this.state.prevState)) {
+        this.addSample(0).catch(error => {
+          console.log("An error has occurred while adding new samples(noTimeout = true) " + error)
+        });
+        this.state.noTimeout = false;
+      }
+
       else {
         setTimeout(() => {
           this.addSample(counter);
@@ -100,7 +102,7 @@ class App extends Component {
     } else if (symbol === "Stop") {
       // stop playing all of the current sounds
       if (this.state.samplesArr.length > 0) {
-        let returnedPromise = await this.stopPlaying().catch(error => {
+        this.stopPlaying().catch(error => {
           console.log(error);
         });
         this.state.noTimeout = true;
