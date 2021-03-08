@@ -1,0 +1,35 @@
+.body {
+    background: #f0e4d7;
+}
+.App{
+    margin: auto;
+    width: 90vw;
+    min-width: 200px;
+}
+
+input.text-bar{
+    height: 6vw;
+    width: 100%;
+    border: none;
+    text-align: center;
+    font-size: calc(10px + 2vw);
+    max-width: 150vw;
+    font-family: "URW Chancery L", cursive; 
+}
+.header{
+    text-align: center;
+    width: 100%;
+    height: auto;
+    position: relative;
+    font-family: "Brush Script MT", cursive;
+    font-size: 10vw;
+    color: #ffce89;
+    
+}
+.now-playing{
+    position: absolute;
+    right: 50px;
+    z-index: 99;
+    top: 10px;
+    color: #aaa;
+}
