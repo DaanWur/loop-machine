@@ -5,8 +5,7 @@ import ErrorBoundary from "./Components/ErrorBoundary.js"
 import "./css/style.css"
 import "./css/Button.css"
 import "./css/PlayStop.css"
-import "./html/PageLayout.html"
-
+// constant array of the web adresses 
 const webSounds =
 {
   "Bass Warwick": "https://www.docs.google.com/uc?export=download&id=1sO4g0VLC2F6Vo47vnBoAOOXWsj5oLOnX",
@@ -55,8 +54,10 @@ class App extends Component {
       }
     }
   }
+  // adds samples to the samples array and plays them
   addSample = async (num) => {
     for (let i = num; i < this.state.prevState.length; i++) {
+      // matching between the sample and the web sounds
       this.state.samplesArr[i] = new Audio(webSounds[this.state.prevState[i]]);
       this.state.samplesArr[i].play();
       this.state.samplesArr[i].loop = true;
@@ -64,11 +65,13 @@ class App extends Component {
       noneWasAdded += 1;
     }
   }
+  // stops all playing music
   stopPlaying = async () => {
     for (let i = 0; i < this.state.prevState.length; i++) {
       this.state.samplesArr[i].pause();
     }
   }
+  // only plays samples from the samples arr 
   playSamples = async () => {
     for (let i = 0; i < this.state.samplesArr.length; i++) {
       this.state.samplesArr[i].play();
@@ -103,7 +106,7 @@ class App extends Component {
       // stop playing all of the current sounds
       if (this.state.samplesArr.length > 0) {
         this.stopPlaying().catch(error => {
-          console.log(error);
+          console.log("An error has occurred while pausing " +error);
         });
         this.state.noTimeout = true;
       }
