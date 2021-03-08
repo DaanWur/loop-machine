@@ -2,12 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## App image  
-**Shrinked view  
+Shrinked view  
 
 ![pic](https://user-images.githubusercontent.com/50828198/110323952-00756580-801e-11eb-9d3d-4544b3c24294.jpg)
 
 
-**Full page view  
+Full page view  
 ![pic2](https://user-images.githubusercontent.com/50828198/110352486-a89b2680-803e-11eb-961b-a4a1a80e65dc.jpg)
   
 
