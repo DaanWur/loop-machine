@@ -111,7 +111,7 @@ class App extends Component {
         this.state.noTimeout = true;
       }
     }
-
+// render method 
   }
   render() {
     // the effects key pad
