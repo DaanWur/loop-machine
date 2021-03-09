@@ -35,7 +35,9 @@ class App extends Component {
   }
   // reset function
   reset = async () => {
-    this.setState({ prevState: [], currState: 'Nothing to play yet...', samplesArr: [], firstTimeUse: true });
+    this.stopPlaying().catch(error => {
+      console.log("An error has occurred while reseting " +error);
+    });    this.setState({ prevState: [], currState: 'Nothing to play yet...', samplesArr: [], firstTimeUse: true });
     counter = 0;
   }
 
@@ -45,10 +47,12 @@ class App extends Component {
       let { prevState } = this.state;
       prevState.push(symbol);
       this.setState({ currState: symbol, prevState });
+      
 
     } else {
       if ((this.state.prevState === "Nothing to play yet...")) {
         this.setState({ currState: symbol });
+        
       } else {
         this.setState({ currState: this.state.currState + symbol });
       }
