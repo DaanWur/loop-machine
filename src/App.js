@@ -33,7 +33,7 @@ class App extends Component {
     }
 
   }
-  // reset function
+  // reset function also stops the running samples
   reset = async () => {
     this.stopPlaying().catch(error => {
       console.log("An error has occurred while reseting " +error);
