@@ -82,6 +82,7 @@ class App extends Component {
 
     }
   }
+  // manage anything that is connected to play and stop actions
   playStop = async (symbol) => {
 
     if (symbol === "Play") {
