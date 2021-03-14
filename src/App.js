@@ -18,9 +18,22 @@ const webSounds =
   "Pas Groove": "https://www.docs.google.com/uc?export=download&id=18fZxvp64ep7ph1TZWL1WanzB714K1UaD",
   "Maze Politics": "https://www.docs.google.com/uc?export=download&id=1noQWMzjEQtBmlwbR8dNUOhTFyCjto0FR"
 }
+
+var sounds =
+{
+  "Bass Warwick": new Audio(webSounds["Bass Warwick"]),
+  "Electric Guitar": new Audio(webSounds["Electric Guitar"]),
+  "Stutter Breakbeats": new Audio(webSounds["Stutter Breakbeats"]),
+  "Future Funk Beats": new Audio(webSounds["Future Funk Beats"]),
+  "Groove B": new Audio(webSounds["Groove B"]),
+  "Stompy Slosh": new Audio(webSounds["Stompy Slosh"]),
+  "Silent Star": new Audio(webSounds["Silent Star"]),
+  "Pas Groove": new Audio(webSounds["Pas Groove"]),
+  "Maze Politics": new Audio(webSounds["Maze Politics"])
+}
 var counter = 0;
 var noneWasAdded = 0;
-
+var bla = true;
 class App extends Component {
   constructor(props) {
     super(props);
@@ -36,8 +49,21 @@ class App extends Component {
   // reset function also stops the running samples
   reset = async () => {
     this.stopPlaying().catch(error => {
-      console.log("An error has occurred while reseting " +error);
-    });    this.setState({ prevState: [], currState: 'Nothing to play yet...', samplesArr: [], firstTimeUse: true });
+      console.log("An error has occurred while reseting " + error);
+    });
+    sounds =
+    {
+      "Bass Warwick": new Audio(webSounds["Bass Warwick"]),
+      "Electric Guitar": new Audio(webSounds["Electric Guitar"]),
+      "Stutter Breakbeats": new Audio(webSounds["Stutter Breakbeats"]),
+      "Future Funk Beats": new Audio(webSounds["Future Funk Beats"]),
+      "Groove B": new Audio(webSounds["Groove B"]),
+      "Stompy Slosh": new Audio(webSounds["Stompy Slosh"]),
+      "Silent Star": new Audio(webSounds["Silent Star"]),
+      "Pas Groove": new Audio(webSounds["Pas Groove"]),
+      "Maze Politics": new Audio(webSounds["Maze Politics"])
+    }
+    this.setState({ prevState: [], currState: 'Nothing to play yet...', samplesArr: [], firstTimeUse: true });
     counter = 0;
   }
 
@@ -47,24 +73,23 @@ class App extends Component {
       let { prevState } = this.state;
       prevState.push(symbol);
       this.setState({ currState: symbol, prevState });
-      
+
 
     } else {
       if ((this.state.prevState === "Nothing to play yet...")) {
         this.setState({ currState: symbol });
-        
+
       } else {
         this.setState({ currState: this.state.currState + symbol });
       }
     }
   }
   // adds samples to the samples array and plays them
-  addSample = async (num) => {
-    for (let i = num; i < this.state.prevState.length; i++) {
+  playSamples = async () => {
+    for (let i = 0; i < this.state.prevState.length; i++) {
       // matching between the sample and the web sounds
-      this.state.samplesArr[i] = new Audio(webSounds[this.state.prevState[i]]);
-      this.state.samplesArr[i].play();
-      this.state.samplesArr[i].loop = true;
+      sounds[this.state.prevState[i]].play();
+      sounds[this.state.prevState[i]].loop = true;
       counter += 1;
       noneWasAdded += 1;
     }
@@ -72,52 +97,82 @@ class App extends Component {
   // stops all playing music
   stopPlaying = async () => {
     for (let i = 0; i < this.state.prevState.length; i++) {
-      this.state.samplesArr[i].pause();
+      sounds[this.state.prevState[i]].pause();
     }
   }
   // only plays samples from the samples arr 
-  playSamples = async () => {
-    for (let i = 0; i < this.state.samplesArr.length; i++) {
-      this.state.samplesArr[i].play();
+  // playSamples = async () => {
+  //   for (let i = 0; i < this.state.samplesArr.length; i++) {
+  //     this.state.samplesArr[i].play();
 
-    }
-  }
+  //   }
+  // }
   // manage anything that is connected to play and stop actions
   playStop = async (symbol) => {
 
     if (symbol === "Play") {
-      console.log(this.state);
-      console.log("counter " + counter);
-      // if no new samples were added to the samplesArr 
-      if (noneWasAdded === this.state.prevState.length) {
-        this.playSamples().catch(error => {
-          console.log("An error has occurred in playing" + error)
-        })
-      }
-      // if new smaples were added to the samplesArr
-      else if ((this.state.noTimeout) && (noneWasAdded !== this.state.prevState)) {
-        this.addSample(0).catch(error => {
-          console.log("An error has occurred while adding new samples(noTimeout = true) " + error)
-        });
-        this.state.noTimeout = false;
+      // console.log(sounds["Bass Warwick"].currentTime );
+
+      // for (var sound of Object.values(sounds)) {
+      //   if (sound.currentTime > 0) {
+      //     console.log("here");
+      //     setTimeout(() => {
+      //       this.playSamples(counter);
+      //     }, (sound.duration - sound.currentTime));
+
+      //   } else {
+      //     sound.play();
+      //   }
+      // }
+      console.log(sounds[0][0]);
+      // for (var sound of Object.values(sounds)) {
+      //   if()
+        
+      // }
+      for (let i = 0; i < this.state.prevState.length; i++) {
+        
+      
+        // if() {
+
+        //   sounds[this.state.prevState[i]].play();
+        //   sounds[this.state.prevState[i]].loop = true;
+        // }
+
       }
 
-      else {
-        setTimeout(() => {
-          this.addSample(counter);
-        }, 8000);
-      }
+
+      // if no new samples were added to the samplesArr 
+      // if (noneWasAdded === this.state.prevState.length) {
+      //   console.log("here2");
+
+      //   this.playSamples().catch(error => {
+      //     console.log("An error has occurred in playing" + error)
+      //   })
+      // }
+      // if new smaples were added to the samplesArr
+      // else if ((this.state.noTimeout) && (noneWasAdded !== this.state.prevState)) {
+      //   console.log("here3");
+
+      //   this.addSample(0).catch(error => {
+      //     console.log("An error has occurred while adding new samples(noTimeout = true) " + error)
+      //   });
+      //   this.state.noTimeout = false;
+      // }
+      // else {
+      //   setTimeout(() => {
+      //     this.addSample(counter);
+      //   }, 8000);
+      // }
     } else if (symbol === "Stop") {
       // stop playing all of the current sounds
-      if (this.state.samplesArr.length > 0) {
-        this.stopPlaying().catch(error => {
-          console.log("An error has occurred while pausing " +error);
-        });
-        this.state.noTimeout = true;
-      }
+      this.stopPlaying().catch(error => {
+        console.log("An error has occurred while pausing " + error);
+      });
+      this.state.noTimeout = true;
+
     }
-// render method 
   }
+  // render method 
   render() {
     // the effects key pad
     const keyPad = [
